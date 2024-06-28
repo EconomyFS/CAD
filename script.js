@@ -14,16 +14,22 @@ function createSprite() {
     callsignGroup.appendChild(callsignLabel);
     callsignGroup.appendChild(callsignInput);
 
-    // Department Input
+    // Department Input (Dropdown)
     const departmentGroup = document.createElement('div');
     departmentGroup.className = 'input-group';
     const departmentLabel = document.createElement('label');
     departmentLabel.innerText = 'Department: ';
-    const departmentInput = document.createElement('input');
-    departmentInput.type = 'text';
-    departmentInput.name = 'department';
+    const departmentSelect = document.createElement('select');
+    departmentSelect.name = 'department';
+    const departments = ['USBP', 'USMS', 'USP', 'FCSO', 'APD'];
+    departments.forEach(dept => {
+        const option = document.createElement('option');
+        option.value = dept;
+        option.text = dept;
+        departmentSelect.appendChild(option);
+    });
     departmentGroup.appendChild(departmentLabel);
-    departmentGroup.appendChild(departmentInput);
+    departmentGroup.appendChild(departmentSelect);
 
     // Status Dropdown
     const statusGroup = document.createElement('div');
@@ -32,18 +38,13 @@ function createSprite() {
     statusLabel.innerText = 'Status: ';
     const statusSelect = document.createElement('select');
     statusSelect.name = 'status';
-    const option1 = document.createElement('option');
-    option1.value = '10-8';
-    option1.text = '10-8';
-    const option2 = document.createElement('option');
-    option2.value = '10-6';
-    option2.text = '10-6';
-    const option3 = document.createElement('option');
-    option3.value = '10-7';
-    option3.text = '10-7';
-    statusSelect.appendChild(option1);
-    statusSelect.appendChild(option2);
-    statusSelect.appendChild(option3);
+    const statusOptions = ['10-8', '10-6', '10-7'];
+    statusOptions.forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.text = optionText;
+        statusSelect.appendChild(option);
+    });
     statusGroup.appendChild(statusLabel);
     statusGroup.appendChild(statusSelect);
 
@@ -55,16 +56,13 @@ function createSprite() {
     addButton.onclick = function () {
         moveSprite(sprite, statusSelect.value);
         addButton.style.display = 'none';
-        makeSpriteEditable(sprite, callsignInput.value, departmentInput.value, statusSelect.value, statusSelect);
+        makeSpriteEditable(sprite, callsignInput.value, departmentSelect.value, statusSelect.value, statusSelect);
     };
 
     // Delete Button
     const deleteButton = document.createElement('button');
     deleteButton.innerText = 'Delete';
     deleteButton.className = 'delete-button';
-    deleteButton.onclick = function () {
-        sprite.remove();
-    };
 
     // Append inputs to sprite
     sprite.appendChild(callsignGroup);
@@ -79,6 +77,11 @@ function createSprite() {
     // Event listener to update column when status changes
     statusSelect.addEventListener('change', function () {
         moveSprite(sprite, statusSelect.value);
+    });
+
+    // Event listener for delete button
+    deleteButton.addEventListener('click', function () {
+        sprite.remove();
     });
 }
 
@@ -96,32 +99,23 @@ function moveSprite(sprite, status) {
     });
     // Append sprite to the new column based on status
     columns[status].appendChild(sprite);
+
+    // Reattach delete button event listener
+    const deleteButton = sprite.querySelector('.delete-button');
+    if (deleteButton) {
+        deleteButton.removeEventListener('click', deleteSprite);
+        deleteButton.addEventListener('click', deleteSprite);
+    }
 }
 
-function makeSpriteEditable(sprite, callsign, department, status, statusSelect) {
-    // Create a readable format of the sprite's details
-    sprite.innerHTML = `
-        <div>Callsign: ${callsign}</div>
-        <div>Department: ${department}</div>
-        <div>Status: <select name="status">
-            <option value="10-8" ${status === '10-8' ? 'selected' : ''}>10-8</option>
-            <option value="10-6" ${status === '10-6' ? 'selected' : ''}>10-6</option>
-            <option value="10-7" ${status === '10-7' ? 'selected' : ''}>10-7</option>
-        </select></div>
-        <div class="input-group">
-            <label for="notes">Notes:</label>
-            <textarea name="notes" rows="3"></textarea>
-        </div>
-        <button class="delete-button">Delete</button>
-    `;
-
-    // Add event listener to the new status select element
-    sprite.querySelector('select').addEventListener('change', function (event) {
-        moveSprite(sprite, event.target.value);
-    });
-
-    // Add event listener to the delete button
-    sprite.querySelector('.delete-button').addEventListener('click', function () {
+function deleteSprite(event) {
+    const sprite = event.target.closest('.sprite');
+    if (sprite) {
         sprite.remove();
-    });
+    }
+}
+
+function resetAll() {
+    const container = document.getElementById('spriteContainer');
+    container.innerHTML = ''; // Remove all sprites
 }
