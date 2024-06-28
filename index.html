@@ -3,95 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Manager</title>
+    <title>Henpal's Unit Manager</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Josefin Sans', sans-serif;
-            background-color: #2c2c2c;
-            color: white;
-            margin: 20px;
-        }
-        .button {
-            padding: 10px 20px;
-            background-color: #1e3a8a;
-            color: white;
-            border: 2px solid #60a5fa;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .sprite {
-            border: 1px solid #444;
-            padding: 20px;
-            margin: 10px 0;
-            background-color: #3b3b3b;
-            position: relative;
-            border-radius: 8px;
-        }
-        .input-group {
-            margin-bottom: 10px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        .input-group input, .input-group select, .input-group textarea {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 5px;
-            background-color: #2e2e2e;
-            color: white;
-        }
-        .columns {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .column {
-            width: 30%;
-            border: 1px solid #555;
-            padding: 10px;
-            min-height: 300px;
-            background-color: #2e2e2e;
-            border-radius: 8px;
-        }
-        .column-title {
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .delete-button {
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button class="button" onclick="createSprite()">Add New Unit</button>
-    <div id="spriteContainer"></div>
+    <div class="title">
+        <h1>Henpal's Unit Manager</h1>
+    </div>
+
+    <div class="header">
+        <button class="button" onclick="createSprite()">Add New Unit</button>
+        <button class="button reset" onclick="resetAll()">Reset All</button>
+    </div>
+
+    <div class="column-titles">
+        <div class="column-title">10-6</div>
+        <div class="column-title">10-7</div>
+        <div class="column-title">10-8</div>
+    </div>
+
     <div class="columns">
         <div class="column" id="status-10-6">
-            <div class="column-title">10-6</div>
+            <!-- Column content dynamically added -->
         </div>
         <div class="column" id="status-10-7">
-            <div class="column-title">10-7</div>
+            <!-- Column content dynamically added -->
         </div>
         <div class="column" id="status-10-8">
-            <div class="column-title">10-8</div>
+            <!-- Column content dynamically added -->
         </div>
     </div>
+
+    <div id="spriteContainer"></div>
 
     <script src="script.js"></script>
 </body>
